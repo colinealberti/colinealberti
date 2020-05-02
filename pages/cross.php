@@ -5,7 +5,8 @@
      Email : jgil83000@gmail.com
 -->
 <?php
-include('../includes/debut_page.php')
+include('../includes/debut_page.php');
+session_destroy();
 ?>
 <html lang="fr-FR">
     <head>

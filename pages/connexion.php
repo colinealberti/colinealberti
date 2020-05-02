@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <?php
-include('../includes/debut_page.php')
+include('../includes/debut_page.php');
 ?>
 
 <html lang="fr-FR">
@@ -41,7 +41,7 @@ else
     $message='';
     if(isset($_SESSION['pseudo'])){
         $message='Page inaccessible car vous êtes déjà connecté '
-                . '<p>Cliquez <a href="./connexion.php">ici</a> pour revenir</p>';
+                . '<p>Cliquez <a href="../index.php">ici</a> pour revenir à l\'accueil</p>';
     }
     else if (empty($_POST['pseudo']) || empty($_POST['password']) ) //Oublie d'un champ
     {
@@ -59,11 +59,13 @@ else
 	if ($data['password'] == $_POST['password']) // Acces OK !
 	{
 	    $_SESSION['pseudo'] = $data['login'];
-	    $_SESSION['level'] = $data['niveau'];
+	    $_SESSION['niveau'] = $data['niveau'];
 	    $message = '<p>Bienvenue '.$data['login'].', 
 			vous êtes maintenant connecté!</p>
 			<p>Cliquez <a href="../index.php">ici</a> 
-			pour revenir à la page d accueil</p>';  
+			pour revenir à la page d accueil</p>
+                        <p>Cliquez <a href="./mon-compte.php">ici</a> 
+			pour aller sur votre page personelle</p>';  
 	}
 	else // Acces pas OK !
 	{
@@ -76,7 +78,7 @@ else
 	}
     $query->CloseCursor();
     }
-    echo $message.'</div></body></html>';
+    echo $message.'</div>';
 
 }
 

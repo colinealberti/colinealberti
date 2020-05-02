@@ -18,12 +18,13 @@ $pages = array(
     'Piste' => $dirPages . 'piste.php',
     'Enfants' => $dirPages . 'enfants.php',
     'Nous contacter' => $dirPages . 'nous-contacter.php',
-    'Se connecter'=> $dirPages . 'connexion.php'
+    //'Se connecter'=> $dirPages . 'connexion.php'
 );
 
-$lvl=(isset($_SESSION['level']))?(int) $_SESSION['level']:1;
+/*$lvl=(isset($_SESSION['level']))?(int) $_SESSION['level']:1;
 $id=(isset($_SESSION['id']))?(int) $_SESSION['id']:0;
 $pseudo=(isset($_SESSION['pseudo']))?$_SESSION['pseudo']:'';
+ */
 
 ?>
 
@@ -47,6 +48,12 @@ $pseudo=(isset($_SESSION['pseudo']))?$_SESSION['pseudo']:'';
             // Affichage des liens de la barre de navigation
             foreach ($pages as $nom => $url) {
                 echo "\n", '<li><a href="', $url, '">', $nom, '</a></li>';
+            }
+            if(isset($_SESSION['pseudo'])){
+                echo "\n", '<li><a href="', $dirPages . 'mon-compte.php', '">',$_SESSION['pseudo'] , '</a></li>';
+            }
+            else{
+                echo "\n", '<li><a href="', $dirPages . 'connexion.php', '">','Se connecter' , '</a></li>';
             }
             ?>
         </ul>
