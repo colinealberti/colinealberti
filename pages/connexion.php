@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <?php
-session_start();
-echo "<script>
-console.log('".$_SESSION['pseudo']."');
-</script>"
+include('../includes/debut_page.php')
 ?>
 
 <html lang="fr-FR">
@@ -23,7 +20,7 @@ console.log('".$_SESSION['pseudo']."');
         ?>
         <h1 id="teste">Connexion :</h1>
         <?php
-if (!isset($_POST['pseudo'])) //On est dans la page de formulaire
+if (!isset($_POST['pseudo'])&&!isset($_SESSION['pseudo'])) //On est dans la page de formulaire
 {
 	echo '<form method="post" action="connexion.php">
 	<fieldset>
@@ -39,11 +36,14 @@ if (!isset($_POST['pseudo'])) //On est dans la page de formulaire
 	</div>';
 
 }
-//On reprend la suite du code
 else
 {
     $message='';
-    if (empty($_POST['pseudo']) || empty($_POST['password']) ) //Oublie d'un champ
+    if(isset($_SESSION['pseudo'])){
+        $message='Page inaccessible car vous êtes déjà connecté '
+                . '<p>Cliquez <a href="./connexion.php">ici</a> pour revenir</p>';
+    }
+    else if (empty($_POST['pseudo']) || empty($_POST['password']) ) //Oublie d'un champ
     {
         $message = '<p>une erreur s\'est produite pendant votre identification.
 	Vous devez remplir tous les champs</p>

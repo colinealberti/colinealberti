@@ -4,7 +4,9 @@
      Auteur : José GIL
      Email : jgil83000@gmail.com
 -->
-
+<?php
+include('../includes/debut_page.php')
+?>
 <html lang="fr-FR">
     <head>
         <title>Casques Nolark : Sécurité et confort, nos priorités !</title>
