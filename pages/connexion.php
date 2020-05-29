@@ -20,7 +20,8 @@ include('../includes/debut_page.php');
         ?>
         <h1 id="teste">Connexion :</h1>
         <?php
-if (!isset($_POST['pseudo'])&&!isset($_SESSION['pseudo'])) //On est dans la page de formulaire
+//Le cas ou l'utilisateur n'est pas encore connecté, on lui affiche donc le formulaire de connection
+if (!filter_input(INPUT_POST, 'pseudo', FILTER_SANITIZE_STRING) &&!isset($_SESSION['pseudo'])) 
 {
 	echo '<form method="post" action="connexion.php">
 	<fieldset>
@@ -31,7 +32,7 @@ if (!isset($_POST['pseudo'])&&!isset($_SESSION['pseudo'])) //On est dans la page
 	</p>
 	</fieldset>
 	<p><input type="submit" value="Connexion" /></p></form>
-	<a href="./register.php">Pas encore inscrit ?</a>
+	<a href="./inscription.php">Pas encore inscrit ?</a>
 	 
 	</div>';
 
@@ -39,11 +40,13 @@ if (!isset($_POST['pseudo'])&&!isset($_SESSION['pseudo'])) //On est dans la page
 else
 {
     $message='';
+    //Au cas ou l'utilisateur était déjà connecté
     if(isset($_SESSION['pseudo'])){
-        $message='Page inaccessible car vous êtes déjà connecté '
+        $message='<p>Page inaccessible car vous êtes déjà connecté </p>'
                 . '<p>Cliquez <a href="../index.php">ici</a> pour revenir à l\'accueil</p>';
     }
-    else if (empty($_POST['pseudo']) || empty($_POST['password']) ) //Oublie d'un champ
+    //On vérifie si aucun champs n'a été oublié
+    else if (!filter_input(INPUT_POST, 'pseudo', FILTER_SANITIZE_STRING) || !filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING) )
     {
         $message = '<p>une erreur s\'est produite pendant votre identification.
 	Vous devez remplir tous les champs</p>
@@ -51,14 +54,15 @@ else
     }
     else //On check le mot de passe
     {
+        $pseudo=filter_input(INPUT_POST, 'pseudo', FILTER_SANITIZE_STRING);
         $db = new PDO('mysql:host=127.0.0.1;dbname=nolark', 'nolarkuser', 'nolarkpwd');
         $query= $db->prepare('SELECT login, password, niveau from utilisateur where login= :pseudo');
-        $query->bindValue(':pseudo',$_POST['pseudo'], PDO::PARAM_STR);
+        $query->bindValue(':pseudo',$pseudo, PDO::PARAM_STR);
         $query->execute();
         $data=$query->fetch();        
-	if ($data['password'] == $_POST['password']) // Acces OK !
+	if ($data['password'] == filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING)) // Acces OK !
 	{
-	    $_SESSION['pseudo'] = $data['login'];
+	    $_SESSION['pseudo'] = $pseudo;
 	    $_SESSION['niveau'] = $data['niveau'];
 	    $message = '<p>Bienvenue '.$data['login'].', 
 			vous êtes maintenant connecté!</p>
