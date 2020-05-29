@@ -24,7 +24,7 @@ include('../includes/debut_page.php')
             echo '<p>Oh non, un relou de modo...</p>';
         }
         else if((int)$_SESSION['niveau']===2){
-            echo '<p>Tient! Un simple utilisateur, bonne navigation sur le site de Nolark !</p>';
+            echo '<p>Tient! Un client, bonne navigation sur le site de Nolark !</p>';
         }
         ?>       
         <a href="./deconnexion.php"><img src="../images/btn_deco.png" alt="Bouton de déconnexion"></a>
